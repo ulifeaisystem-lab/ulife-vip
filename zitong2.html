@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姿彤總監專屬・U-LIFE系統・流量特助</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans TC', 'PingFang TC', sans-serif;
+            background: linear-gradient(145deg, #fff8f8 0%, #fdf4ee 50%, #fff9f5 100%);
+            color: #3a2a2a;
+            padding: 24px 16px 60px;
+            min-height: 100vh;
+        }
+        .page { max-width: 1200px; margin: 0 auto; }
+
+        /* ── 頂部 ── */
+        .header { text-align: center; margin-bottom: 28px; }
+        .header-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4a0a0, #c9956c);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border-radius: 99px;
+            margin-bottom: 14px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 900;
+            line-height: 1.4;
+            background: linear-gradient(135deg, #b76e79, #c9956c, #b76e79);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p { font-size: 11px; color: #c4a090; margin-top: 6px; letter-spacing: 1.5px; }
+
+        /* ── 佈局 ── */
+        .main-layout { display: grid; grid-template-columns: 340px 1fr; gap: 22px; align-items: start; }
+        @media (max-width: 860px) { .main-layout { grid-template-columns: 1fr; } }
+
+        /* ── 左卡 ── */
+        .left-card {
+            background: #fff;
+            border-radius: 32px;
+            padding: 28px 24px;
+            box-shadow: 0 8px 40px rgba(183,110,121,0.12), 0 2px 8px rgba(201,149,108,0.08);
+            border: 1.5px solid rgba(212,160,160,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .left-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #b76e79, #d4a0a0, #c9956c, #d4a0a0, #b76e79);
+        }
+
+        /* API Key */
+        .api-wrap {
+            background: linear-gradient(135deg, #fff5f5, #fff8f2);
+            border: 1.5px solid rgba(183,110,121,0.2);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+        }
+        .api-label { font-size: 12px; font-weight: 900; color: #b76e79; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .api-row { display: flex; gap: 8px; }
+        .api-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1.5px solid #ead5d5;
+            border-radius: 12px;
+            font-size: 13px;
+            background: #fff;
+            color: #3a2a2a;
+            letter-spacing: 2px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .api-input:focus { outline: none; border-color: #b76e79; box-shadow: 0 0 0 3px rgba(183,110,121,0.1); }
+        .api-input::placeholder { color: #d4b0b0; letter-spacing: 1px; font-size: 12px; }
+        .eye-btn {
+            background: #fff5f5;
+            border: 1.5px solid #ead5d5;
+            border-radius: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #c4a0a0;
+            transition: all 0.2s;
+        }
+        .eye-btn:hover { border-color: #b76e79; color: #b76e79; background: #fff; }
+        .api-hint { font-size: 11px; color: #c4a0a0; margin-top: 7px; line-height: 1.6; }
+        .api-hint a { color: #b76e79; font-weight: 700; text-decoration: none; }
+
+        /* 選單標題 */
+        .menu-header {
+            font-size: 13px;
+            font-weight: 900;
+            color: #c9956c;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .menu-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(201,149,108,0.3), transparent);
+        }
+
+        /* 風格按鈕 */
+        .style-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; }
+        .style-btn {
+            width: 100%;
+            padding: 20px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            font-weight: 900;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1.5px solid transparent;
+            line-height: 1.3;
+            letter-spacing: 0.3px;
+        }
+        .style-btn.inactive {
+            background: #fdf8f8;
+            color: #7a5555;
+            border-color: rgba(212,160,160,0.2);
+            box-shadow: 0 2px 8px rgba(183,110,121,0.05);
+        }
+        .style-btn.inactive:hover {
+            background: #fff;
+            border-color: rgba(183,110,121,0.35);
+            color: #b76e79;
+            box-shadow: 0 4px 16px rgba(183,110,121,0.12);
+            transform: translateY(-1px);
+        }
+        .style-btn.active {
+            background: linear-gradient(135deg, #b76e79, #c9956c);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 6px 20px rgba(183,110,121,0.4);
+            transform: translateY(-2px);
+        }
+        .style-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* 工具列 */
+        .tool-section-label {
+            font-size: 10px;
+            font-weight: 900;
+            color: #c4a0a0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .tools-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .tool-link {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px 6px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.22s;
+            letter-spacing: 0.3px;
+        }
+        .tool-link:hover { transform: translateY(-2px); filter: brightness(1.08); }
+        .t-gemini  { background: linear-gradient(135deg,#4285F4,#1a6cf5); box-shadow: 0 3px 10px rgba(66,133,244,0.28); }
+        .t-chatgpt { background: linear-gradient(135deg,#10a37f,#0d8c6b); box-shadow: 0 3px 10px rgba(16,163,127,0.28); }
+        .t-fb      { background: linear-gradient(135deg,#1877f2,#0a5dc2); box-shadow: 0 3px 10px rgba(24,119,242,0.28); }
+        .t-ig      { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af); box-shadow: 0 3px 10px rgba(221,42,123,0.28); }
+        .t-threads { background: linear-gradient(135deg,#888,#444); box-shadow: 0 3px 10px rgba(0,0,0,0.18); }
+        .tools-hint { font-size: 10.5px; color: #d4b0b0; text-align: center; margin-top: 5px; }
+
+        /* 右側輸出 */
+        .right-area { display: flex; flex-direction: column; gap: 14px; }
+        .status-bar {
+            background: linear-gradient(135deg, #fff5f5, #fff8f2);
+            border: 1.5px solid rgba(183,110,121,0.25);
+            border-radius: 16px;
+            padding: 14px 18px;
+            color: #b76e79;
+            font-weight: 900;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+            letter-spacing: 0.5px;
+        }
+        .cols-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 860px) { .cols-grid { grid-template-columns: 1fr; } .tools-row { flex-wrap: wrap; } .tool-link { flex: 1 1 40%; } }
+
+        .col {
+            background: #fff;
+            border-radius: 22px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 360px;
+            border: 1.5px solid rgba(212,160,160,0.2);
+            box-shadow: 0 4px 20px rgba(183,110,121,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .col::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+        .col-fb::before   { background: linear-gradient(90deg, #1877f2, #4285F4); }
+        .col-ig::before   { background: linear-gradient(90deg, #f58529, #dd2a7b, #8134af); }
+        .col-threads::before { background: linear-gradient(90deg, #b76e79, #c9956c); }
+
+        .col-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212,160,160,0.15);
+            margin-top: 6px;
+        }
+        .col-name { font-weight: 900; font-size: 12px; font-style: italic; }
+        .n-fb      { color: #1877f2; }
+        .n-ig      { color: #dd2a7b; }
+        .n-threads { color: #b76e79; }
+
+        .copy-btn {
+            background: #fff5f5;
+            border: 1.5px solid rgba(183,110,121,0.2);
+            border-radius: 99px;
+            padding: 4px 14px;
+            font-size: 11px;
+            font-weight: 900;
+            color: #c4a0a0;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #b76e79, #c9956c);
+            color: #fff;
+            border-color: transparent;
+        }
+        .output-box {
+            flex: 1;
+            background: linear-gradient(145deg, #fdfafa, #fdf8f5);
+            border: 1px solid rgba(212,160,160,0.15);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 13.5px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            color: #4a3535;
+            overflow-y: auto;
+            min-height: 280px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <div class="header">
+        <div class="header-tag">✦ U-LIFE Director Special</div>
+        <h1>姿彤總監 專屬流量特助</h1>
+        <p>10間姐妹店總監・國家認證營養師・珠寶美食家・全頂配生活圈</p>
+    </div>
+
+    <div class="main-layout">
+        <div class="left-card">
+
+            <!-- API Key -->
+            <div class="api-wrap">
+                <div class="api-label">🔑 Gemini API Key</div>
+                <div class="api-row">
+                    <input type="password" id="userApiKey" class="api-input" placeholder="AIzaSy...">
+                    <button class="eye-btn" onclick="toggleKey()">👁</button>
+                </div>
+                <div class="api-hint">沒有金鑰？<a href="https://aistudio.google.com/app/apikey" target="_blank">點此免費申請</a>（每天 1,500 次）</div>
+            </div>
+
+            <!-- 選單 -->
+            <div class="menu-header">💎 流量選單</div>
+            <div class="style-list">
+                <button class="style-btn inactive" id="btn-slim"  onclick="generate('slim')">🎯 自動詢問・瘦美健康</button>
+                <button class="style-btn inactive" id="btn-story" onclick="generate('story')">🌸 總監日常・少女眼角的光</button>
+                <button class="style-btn inactive" id="btn-biz"   onclick="generate('biz')">💡 美業整合・店長會議</button>
+                <button class="style-btn inactive" id="btn-life"  onclick="generate('life')">🤝 活得漂亮・雙贏創業</button>
+            </div>
+
+            <!-- AI 工具 -->
+            <div class="tool-section-label">AI 潤飾工具</div>
+            <div class="tools-row" style="margin-bottom:14px;">
+                <a href="https://gemini.google.com/" target="_blank" class="tool-link t-gemini">✦ Gemini</a>
+                <a href="https://chatgpt.com/" target="_blank" class="tool-link t-chatgpt">⚡ ChatGPT</a>
+            </div>
+
+            <!-- 直接發文 -->
+            <div class="tool-section-label">直接發文</div>
+            <div class="tools-row">
+                <a href="https://www.facebook.com/" target="_blank" class="tool-link t-fb">f FB</a>
+                <a href="https://www.instagram.com/" target="_blank" class="tool-link t-ig">📷 IG</a>
+                <a href="https://www.threads.net/" target="_blank" class="tool-link t-threads">@ TH</a>
+            </div>
+            <div class="tools-hint">複製文案 → 點平台 → 貼上發文</div>
+
+        </div>
+
+        <!-- 右側 -->
+        <div class="right-area">
+            <div id="statusBar" class="status-bar"></div>
+            <div class="cols-grid">
+                <div class="col col-fb">
+                    <div class="col-head">
+                        <span class="col-name n-fb">FB 大格局長文版</span>
+                        <button class="copy-btn" onclick="copyCol('out-fb',this)">複製</button>
+                    </div>
+                    <div id="out-fb" class="output-box">點擊左側按鈕開始生成...</div>
+                </div>
+                <div class="col col-ig">
+                    <div class="col-head">
+                        <span class="col-name n-ig">IG 網紅金句版</span>
+                        <button class="copy-btn" onclick="copyCol('out-ig',this)">複製</button>
+                    </div>
+                    <div id="out-ig" class="output-box">點擊左側按鈕開始生成...</div>
+                </div>
+                <div class="col col-threads">
+                    <div class="col-head">
+                        <span class="col-name n-threads">Threads 總監硬核版</span>
+                        <button class="copy-btn" onclick="copyCol('out-threads',this)">複製</button>
+                    </div>
+                    <div id="out-threads" class="output-box">點擊左側按鈕開始生成...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const PERSONA = `你現在要完全化身為「陳姿彤」的專屬社群文案助理。
+
+核心人設背景：
+- 女，39歲，U-LIFE健康事業系統總監
+- 10間姐妹店聯合總監、美業異業整合教母，擅長把美髮、汗蒸、按摩等技術者串聯團隊作戰
+- 國家認證營養師：全省巡迴健康營養講師，服務超過千位學員
+- 知名美食部落客、知名珠寶直播主，對生活質感、精品（香奈兒、珠寶）有高雅獨到見解
+
+核心風格：
+- 溫暖系姐姐：懂媽媽的辛苦、懂女生在現實與夢想間的拉扯，提供充滿底氣的情感支持
+- 幽默實戰派：用香奈兒、美食或珠寶大白話比喻複雜的商業與營養學，精明卻不傲慢
+- 親切創業家：分享高維度商業思維、生活美學，致力打造健康、財務、心靈三者並存的全頂配生活圈
+- 核心口頭禪：「永遠當少女，不是幼稚，而是在成為媽媽後，依然沒有放棄自己。」「真正高級的女生，不一定全身精品，但她會開始重視自己的健康、情緒、氣場、眼界。」「一群人從陌生到並肩，慢慢把工作變成一種陪伴。」
+
+嚴格禁止：
+- 禁止提及：直銷、賀寶芙、Herbalife、奶昔、拉人、下線、傳統土味發大財口號
+- 營養補充品一律包裝為「高階臨床營養調理」「細胞級減脂美學」「全人身心靈平衡計畫」
+- 文字要辛辣與溫暖並存，金句共鳴強，引誘主動私訊，拒絕罐頭文章
+
+平台規則：
+- FB（大格局長文版）：大格局思維長文，觀點分析、社會現象解構（女性自我價值、實體店面困境）、情感堆疊深厚，段落清晰，自帶領袖風範，字數200-380字
+- IG（網紅金句版）：網紅級吸睛金句短標題（如：香奈兒與女人的底氣），精簡時尚，引導私訊總監小盒子，附5-8個精準hashtag
+- Threads（總監硬核版）：強烈總監硬核觀點、第一人稱口語、犀利直白、自嘲接地氣，字數50-80字，極高留言轉發率`;
+
+const PROMPTS = {
+    slim: `觸發主題：自動詢問・瘦美健康
+目標：讓全網想要變瘦、變美、變健康的人看完，自動私訊諮詢營養調理與店面服務。
+寫法：結合美食部落客的挑剔、珠寶主的精緻美感，以及國家營養師的專業。直擊現代女性「年過30代謝崩塌、用極端方式減肥搞壞皮膚氣色、賺了錢卻活得浮腫疲憊」的痛點。用數據和科學告訴她們真正高級的精緻是從細胞營養學開始。結尾高姿態引導「私訊姿彤，讓我用專業營養師的規格，幫你重新規劃你的高質感體態。」`,
+
+    story: `觸發主題：總監日常・少女眼角的光
+目標：不帶商業推銷，複製爆款文案邏輯。分享身為女性、母親、領袖，在現實壓力後依然保持漂亮、熱愛生命的感性故事。
+寫法：用極具情感渲染力的文字，談香奈兒對女生的定義、談媽媽如何不為責任犧牲自己、永遠當少女。傳遞溫暖系姐姐的強大氣場，給予社群女性強烈情感支持，建立神級黏著度。`,
+
+    biz: `觸發主題：美業整合・店長會議
+目標：直擊全台正在單打獨鬥、每天校長兼撞鐘、業績遇到瓶頸的實體店長（美髮、美容、美甲、養生店）。
+寫法：複製店長會議爆款邏輯：「一群人從陌生到並肩，從各自努力到互相支撐，慢慢把工作變成一種陪伴。」以U-LIFE 10間姊妹店聯合總監的大格局，拆解異業合作與系統整合的商業思維。告訴單打獨鬥的店家：加入U-LIFE體系，一群人一起變好、一起把店開遍全台。`,
+
+    life: `觸發主題：活得漂亮・雙贏創業
+目標：直擊「身體很好但錢不穩，或賺錢很厲害但心累、生活亂」的痛點，吸引想改變人生、精明賺錢的精準合夥人。
+寫法：釋放親切創業家的頂級思維。談健康、財務、心靈三個同時穩，才叫活得有底氣。大方分享如何帶領團隊開創商業新局。喊話還在思考人生方向的人：「如果你想賺錢，更想賺得優雅、活得漂亮，過來加入我的U-LIFE系統，一起活出最頂配的人生版本。」`
+};
+
+function toggleKey() {
+    const el = document.getElementById('userApiKey');
+    el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+async function generate(type) {
+    const userKey = document.getElementById('userApiKey').value.trim();
+    if (!userKey) { alert('請先輸入您的 Gemini API Key！'); return; }
+
+    document.querySelectorAll('.style-btn').forEach(b => { b.classList.remove('active'); b.classList.add('inactive'); b.disabled = true; });
+    document.getElementById('btn-' + type).classList.add('active');
+    document.getElementById('btn-' + type).classList.remove('inactive');
+
+    const status = document.getElementById('statusBar');
+    const fbOut  = document.getElementById('out-fb');
+    const igOut  = document.getElementById('out-ig');
+    const thOut  = document.getElementById('out-threads');
+
+    status.style.display = 'block';
+    status.innerText = '💎 姿彤總監的流量爆款文案生成中，請稍候...';
+    fbOut.innerText = '大格局長文撰寫中...';
+    igOut.innerText = '網紅金句版生成中...';
+    thOut.innerText = '總監硬核觀點醞釀中...';
+
+    const prompt = `${PERSONA}\n\n${PROMPTS[type]}\n\n請只回傳 JSON 格式，不要任何 Markdown 標記或說明文字：\n{"fb":"完整FB大格局長文","ig":"完整IG網紅金句文含hashtag","threads":"完整Threads總監硬核短文"}`;
+
+    try {
+        const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${userKey}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            }
+        );
+        const data = await res.json();
+        if (data.error) {
+            if (data.error.code === 429) throw new Error('RATE_LIMIT');
+            if (data.error.code === 400 || data.error.code === 403) throw new Error('KEY_INVALID');
+            throw new Error(data.error.message);
+        }
+        let raw = data.candidates[0].content.parts[0].text;
+        raw = raw.replace(/```json|```/gi, '').trim();
+        const result = JSON.parse(raw);
+        fbOut.innerText = result.fb      || '生成失敗，請再試一次';
+        igOut.innerText = result.ig      || '生成失敗，請再試一次';
+        thOut.innerText = result.threads || '生成失敗，請再試一次';
+        status.style.display = 'none';
+    } catch (err) {
+        console.error(err);
+        status.style.display = 'none';
+        fbOut.innerText = igOut.innerText = thOut.innerText = '❌ 發生錯誤，請再試一次';
+        if (err.message === 'KEY_INVALID') {
+            alert('【金鑰無效】\n請重新去 aistudio.google.com 申請新的 API Key。');
+        } else if (err.message === 'RATE_LIMIT') {
+            alert('【頻率限制】\n請等 60 秒後再按一次。');
+        } else {
+            alert('【錯誤訊息】' + err.message);
+        }
+    } finally {
+        document.querySelectorAll('.style-btn').forEach(b => b.disabled = false);
+    }
+}
+
+function copyCol(id, btn) {
+    const text = document.getElementById(id).innerText;
+    if (!text || text.includes('...') || text.startsWith('❌') || text.startsWith('點擊')) return;
+    navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = '✓ 已複製';
+        setTimeout(() => btn.innerText = orig, 2000);
+    });
+}
+</script>
+</body>
+</html>
